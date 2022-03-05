@@ -1,1 +1,10 @@
-// TODO
+.header {
+  background: var(--background);
+  height: 105px;
+
+  div {
+    display: flex;
+    align-items: center;
+    height: inherit;
+  }
+}

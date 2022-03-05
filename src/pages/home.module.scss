@@ -1,1 +1,46 @@
-// TODO
+.logo {
+  margin: 5rem 0;
+}
+
+.posts {
+  a {
+    display: block;
+    margin-bottom: 3rem;
+
+    strong {
+      color: var(--heading);
+      font-size: 1.75rem;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1.125rem;
+      margin: 0.5rem 0 1.4rem 0;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+
+      span,
+      time {
+        margin: 0 15px 0 5px;
+      }
+    }
+  }
+}
+
+.loadMore {
+  display: block;
+  margin: 1rem 0 4rem 0;
+  font-size: 1rem;
+  color: var(--highlight);
+  background: none;
+  border: none;
+  outline: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
