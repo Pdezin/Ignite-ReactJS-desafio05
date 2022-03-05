@@ -124,6 +124,6 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       post,
     },
-    revalidate: 120, // 2 minutes
+    revalidate: 60 * 3, // 3 minutes
   };
 };
