@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import PreviewButton from '../components/PreviewButton';
 
 interface Post {
   uid?: string;
@@ -27,21 +28,25 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean;
 }
 
-export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const [posts, setPosts] = useState<PostPagination>(() => postsPagination);
+export default function Home({
+  postsPagination,
+  preview,
+}: HomeProps): JSX.Element {
+  const [posts, setPosts] = useState<PostPagination>(postsPagination);
 
   async function getMorePosts(): Promise<void> {
     if (!posts.next_page) return;
 
-    await fetch(postsPagination.next_page)
+    await fetch(posts.next_page)
       .then(data => data.json())
       .then(response => {
         setPosts(prev => {
           return {
-            next_page: response.next_page,
             results: [...prev.results, ...response.results],
+            next_page: response.next_page,
           };
         });
       });
@@ -81,23 +86,30 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           Carregar mais posts
         </button>
       )}
+      {preview && <PreviewButton />}
     </main>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async ({
+  preview = false,
+  previewData,
+}) => {
   const prismic = getPrismicClient();
   const postsResponse = await prismic.query(
     [Prismic.predicates.at('document.type', 'posts')],
     {
       fetch: ['posts.title', 'posts.subtitle', 'posts.author'],
-      pageSize: 1,
+      pageSize: 5,
+      orderings: '[document.first_publication_date desc]',
+      ref: previewData?.ref ?? null,
     }
   );
 
   return {
     props: {
       postsPagination: postsResponse,
+      preview,
     },
     revalidate: 120, // 2 minutes
   };

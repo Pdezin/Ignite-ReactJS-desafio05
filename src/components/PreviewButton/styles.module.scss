@@ -1,0 +1,17 @@
+.button {
+  background: var(--heading);
+  border-radius: 0.3rem;
+  height: 3.625rem;
+  width: 100%;
+  margin: 4rem 0;
+
+  a {
+    display: block;
+    height: inherit;
+    line-height: 3.625rem;
+    text-align: center;
+    color: var(--background);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
